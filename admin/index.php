@@ -9,15 +9,30 @@
         }
 
     }
+    if (isset($_POST['loisir'])) {
+        if ($_POST['loisir']!=null) {
+            $loisir = addslashes($_POST['loisir']);
+            $pdoCV->exec("INSERT INTO t_loisirs VALUES ( NULL, '$loisir', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+            header("location: index.php");
+            exit();
+        }
+
+    }
  ?>
 <?php
     if (isset($_GET['id_competence'])) {
-        $efface = $_GET['id_competence'];
-        $sql = "DELETE FROM t_competences WHERE id_competence = '$efface'";
+        $effaceCompetence = $_GET['id_competence'];
+        $sql = "DELETE FROM t_competences WHERE id_competence = '$effaceCompetence'";
         $pdoCV -> query($sql);
         header("location: index.php");
         exit();
-
+    }
+    if (isset($_GET['id_loisir'])) {
+        $effaceLoisir = $_GET['id_loisir'];
+        $sql = "DELETE FROM t_loisirs WHERE id_loisir = '$effaceLoisir'";
+        $pdoCV -> query($sql);
+        header("location: index.php");
+        exit();
     }
  ?>
 
@@ -77,7 +92,7 @@
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">About</a>
+                        <a class="page-scroll" href="#about">Loisirs</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#services">Services</a>
@@ -118,10 +133,11 @@
                             <?php foreach ($allCompetence as $competence) :?>
                                     <tr>
                                         <td><?=$competence['competences']?></td>
-                                        <td><a href="#"><span class="glyphicon glyphicon-pencil" ></span></a></td>
+                                        <td><a href="modif_competence.php?id_competence=<?= $competence['id_competence']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
                                         <td><a href="index.php?id_competence=<?= $competence['id_competence']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
                                     </tr>
                             <?php endforeach; ?>
+
                             </tbody>
                     </table>
                 </div>
@@ -159,7 +175,56 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>About Section</h1>
+                    <h1>Loisirs Section</h1>
+                    <?php
+                    $sql = $pdoCV->prepare("SELECT * FROM t_loisirs WHERE utilisateur_id = '1'");
+                    $sql->execute();
+                    $nbr_loisir = $sql->rowCount();
+                     ?>
+                     <p>Il y a <?= $nbr_loisir ?> loisirs dans la table pour <?= '<strong>'.$ligne['prenom'].' '.$ligne['nom'].'</strong>'; ?></p>
+                    <table class="table table-striped">
+                        <?php
+                            $sql = $pdoCV->query("SELECT * FROM t_loisirs WHERE utilisateur_id = '1'");
+                            $allLoisir = $sql->fetchAll();// va chercher !
+                         ?>
+                         <tbody>
+                            <tr>
+                                <th scope="col">loisirs</th>
+                                <th scope="col">Modifier</th>
+                                <th scope="col">Supprimer</th>
+                            </tr>
+                            <?php foreach ($allLoisir as $loisir) :?>
+                                    <tr>
+                                        <td><?=$loisir['loisir']?></td>
+                                        <td><a href="#"><span class="glyphicon glyphicon-pencil" ></span></a></td>
+                                        <td><a href="index.php?id_loisir=<?= $loisir['id_loisir']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
+                                    </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                    </table>
+                    <form class="form-horizontal" method="post">
+                    <fieldset>
+                        <h3>Ajouter un loisir</h3>
+
+                    <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="loisir">loisir</label>
+                                <div class="col-md-4">
+                                <input id="loisir" name="loisir" type="text" placeholder="loisir" class="form-control input-md" required="">
+
+                                </div>
+                            </div>
+
+                            <!-- Button -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="envoyer"></label>
+                                <div class="col-md-4">
+                                <button  type="submit" id="envoyer" class="btn btn-primary">envoyer</button>
+                                </div>
+                            </div>
+
+                    </fieldset>
+                    </form>
                 </div>
             </div>
         </div>
