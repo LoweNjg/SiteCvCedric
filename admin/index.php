@@ -92,10 +92,10 @@
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">Loisirs</a>
+                        <a class="page-scroll" href="#Loisirs">Loisirs</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#services">Services</a>
+                        <a class="page-scroll" href="#services">Experience</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -132,7 +132,7 @@
                             </tr>
                             <?php foreach ($allCompetence as $competence) :?>
                                     <tr>
-                                        <td><?=$competence['competences']?></td>
+                                        <td><?=$competence['competence']?></td>
                                         <td><a href="modif_competence.php?id_competence=<?= $competence['id_competence']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
                                         <td><a href="index.php?id_competence=<?= $competence['id_competence']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
                                     </tr>
@@ -171,7 +171,7 @@
 
 
     <!-- About Section -->
-    <section id="about" class="about-section">
+    <section id="Loisirs" class="about-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -196,7 +196,7 @@
                             <?php foreach ($allLoisir as $loisir) :?>
                                     <tr>
                                         <td><?=$loisir['loisir']?></td>
-                                        <td><a href="#"><span class="glyphicon glyphicon-pencil" ></span></a></td>
+                                        <td><a href="modif_loisir.php?id_loisir=<?= $loisir['id_loisir']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
                                         <td><a href="index.php?id_loisir=<?= $loisir['id_loisir']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
                                     </tr>
                             <?php endforeach; ?>
@@ -235,7 +235,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Services Section</h1>
+                    <h1>Experience Section</h1>
+                    <?php
+                    $sql = $pdoCV->prepare("SELECT * FROM t_competences WHERE utilisateur_id = '1'");
+                    $sql->execute();
+                    $nbr_competence = $sql->rowCount();
+                     ?>
+                     <p>Il y a <?= $nbr_competence ?> compétences dans la table pour <?= '<strong>'.$ligne['prenom'].' '.$ligne['nom'].'</strong>'; ?></p>
                 </div>
             </div>
         </div>
