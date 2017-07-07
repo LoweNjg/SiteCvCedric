@@ -95,7 +95,7 @@
                         <a class="page-scroll" href="#Loisirs">Loisirs</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#services">Experience</a>
+                        <a class="page-scroll" href="#experience">Experience</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -231,20 +231,93 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="services-section">
+    <section id="experience" class="services-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Experience Section</h1>
                     <?php
-                    $sql = $pdoCV->prepare("SELECT * FROM t_competences WHERE utilisateur_id = '1'");
+                    $sql = $pdoCV->prepare("SELECT * FROM t_experiences WHERE utilisateur_id = '1'");
                     $sql->execute();
-                    $nbr_competence = $sql->rowCount();
+                    $nbr_experience = $sql->rowCount();
                      ?>
-                     <p>Il y a <?= $nbr_competence ?> compétences dans la table pour <?= '<strong>'.$ligne['prenom'].' '.$ligne['nom'].'</strong>'; ?></p>
+                     <p>Il y a <?= $nbr_experience ?> Experiences dans la table pour <?= '<strong>'.$ligne['prenom'].' '.$ligne['nom'].'</strong>'; ?></p>
                 </div>
             </div>
         </div>
+        <table class="table table-striped">
+            <?php
+               $sql = $pdoCV->query("SELECT * FROM t_experiences WHERE utilisateur_id = '1'");
+                $allExperience = $sql->fetchAll();// va chercher !
+            ?>
+        <tbody>
+            <tr>
+                <th scope="col">titre</th>
+                <th scope="col">Sous-titre</th>
+                <th scope="col">date</th>
+                <th scope="col">description</th>
+                <th scope="col">Modifier</th>
+                <th scope="col">Supprimer</th>
+            </tr>
+                <?php foreach ($allExperience as $experience) :?>
+                    <tr>
+                        <td><?=$experience['titre_e']?></td>
+                        <td><?=$experience['sous_titre_e']?></td>
+                        <td><?=$experience['dates_e']?></td>
+                        <td><?=$experience['description_e']?></td>
+                        <td><a href="modif_experience.php?id_experience=<?= $experience['id_experience']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
+                        <td><a href="index.php?id_experience=<?= $experience['id_experience']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
+                    </tr>
+                <?php endforeach; ?>
+        </tbody>
+        </table>
+        <form class="form-horizontal" method="post">
+        <fieldset>
+
+        <!-- Form Name -->
+        <legend>Form Name</legend>
+
+        <!-- Text input--> 
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="titre">titre</label>  
+            <div class="col-md-4">
+                <input id="titre" name="titre" type="text" placeholder="titre" class="form-control input-md">
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="sousTitre">sousTitre</label>  
+            <div class="col-md-4">
+                <input id="sousTitre" name="sousTitre" type="text" placeholder="sous-titre" class="form-control input-md">
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="date">date</label>  
+            <div class="col-md-4">
+                <input id="date" name="date" type="text" placeholder="date" class="form-control input-md">
+            </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="description">description</label>
+            <div class="col-md-4">                     
+                <textarea class="form-control" id="description" name="description"></textarea>
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="envoyer"></label>
+            <div class="col-md-4">
+                <button  type="submit" id="envoyer" class="btn btn-primary">envoyer</button>
+            </div>
+        </div>
+        </fieldset>
+        </form>
     </section>
 
     <!-- Contact Section -->
