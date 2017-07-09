@@ -17,6 +17,17 @@
             exit();
         }
 
+    }if (isset($_POST['titre'])) {
+        if ($_POST['titre']!=null) {
+            $titre = addslashes($_POST['titre']);
+            $sousTitre = addslashes($_POST['sousTitre']);
+            $date = addslashes($_POST['date']);
+            $description = addslashes($_POST['description']);
+            $pdoCV->exec("INSERT INTO t_experiences VALUES ( NULL, '$titre','$sousTitre','$date','$description', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+            header("location: index.php");
+            exit();
+        }
+
     }
  ?>
 <?php
@@ -30,6 +41,12 @@
     if (isset($_GET['id_loisir'])) {
         $effaceLoisir = $_GET['id_loisir'];
         $sql = "DELETE FROM t_loisirs WHERE id_loisir = '$effaceLoisir'";
+        $pdoCV -> query($sql);
+        header("location: index.php");
+        exit();
+    }if (isset($_GET['id_experience'])) {
+        $effaceExeperience = $_GET['id_experience'];
+        $sql = "DELETE FROM t_experiences WHERE id_experience = '$effaceExeperience'";
         $pdoCV -> query($sql);
         header("location: index.php");
         exit();
@@ -275,7 +292,7 @@
         <fieldset>
 
         <!-- Form Name -->
-        <legend>Form Name</legend>
+        <legend>Ajouter une experience</legend>
 
         <!-- Text input--> 
         <div class="form-group">
