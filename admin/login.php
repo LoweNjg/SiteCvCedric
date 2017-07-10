@@ -1,70 +1,70 @@
 <?php require '../connexion/connexion.php';?>
 <?php
 
-	session_start();// à mettre dans toutes las pages de l'admin ; SESSION et Authentification
+session_start();// à mettre dans toutes las pages de l'admin ; SESSION et Authentification
 
-	$msg_auth_err=''; // on initialisz la variable en cas d'erreur
+$msg_auth_err=''; // on initialisz la variable en cas d'erreur
 
-	if(isset($_POST['connexion'])){// on envoie le form avec le name du bouton (on a cliqué sur le bouton)
-		$pseudo = addslashes($_POST['pseudo']);
-		$mdp = addslashes($_POST['mdp']);
+if(isset($_POST['connexion'])){// on envoie le form avec le name du bouton (on a cliqué sur le bouton)
+	$pseudo = addslashes($_POST['pseudo']);
+	$mdp = addslashes($_POST['mdp']);
 
-		$sql = $pdoCV->prepare(" SELECT * FROM t_utilisateurs WHERE pseudo='$pseudo' AND mdp='$mdp' ");
-		$sql->execute();
-		$nbr_utilisateur= $sql->rowCount();
+	$sql = $pdoCV->prepare(" SELECT * FROM t_utilisateurs WHERE pseudo='$pseudo' AND mdp='$mdp' ");
+	$sql->execute();
+	$nbr_utilisateur= $sql->rowCount();
 
-			if($nbr_utilisateur==0){
-				$msg_auth_err="Erreur d'authentification !";
-			}
-			else{
-				$ligne_utilisateur= $sql->fetch();
-
-				$_SESSION['connexion']='connecté';
-				$_SESSION['id_utilisateur']=$ligne_utilisateur['id_utilisateur'];
-				$_SESSION['prenom']=$ligne_utilisateur['prenom'];
-				$_SESSION['nom']=$ligne_utilisateur['nom'];
-
-				header('location: index.php');
-				exit();
-			}
-
-
-
+	if($nbr_utilisateur==0){
+		$msg_auth_err="Erreur d'authentification !";
 	}
+	else{
+		$ligne_utilisateur= $sql->fetch();
+
+		$_SESSION['connexion']='connecté';
+		$_SESSION['id_utilisateur']=$ligne_utilisateur['id_utilisateur'];
+		$_SESSION['prenom']=$ligne_utilisateur['prenom'];
+		$_SESSION['nom']=$ligne_utilisateur['nom'];
+
+		header('location: index.php');
+		exit();
+	}
+
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-	<head>
+<head>
 
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-		<title></title>
+	<title></title>
 
-		 <!-- Bootstrap Core CSS -->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 
-		<!-- Custom CSS -->
-		<link href="css/simple-sidebar.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="css/simple-sidebar.css" rel="stylesheet">
 
-		<link rel="stylesheet" href="css/competence.css" />
+	<link rel="stylesheet" href="css/competence.css" />
 
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
 
-	</head>
+</head>
 
-	<body style="background: url(image/bgimg.png)no-repeat; background-size:cover;">
+<body style="background: url(image/bgimg.png)no-repeat; background-size:cover;">
 
-		<form class="form-horizontal" method="post" action="login.php">
-			<fieldset>
+	<form class="form-horizontal" method="post" action="login.php">
+		<fieldset>
 
 			<!-- Form Name -->
 			<legend>Login Admin</legend>
@@ -91,7 +91,7 @@
 				</div>
 			</div>
 
-			</fieldset>
-		</form>
-	</body>
+		</fieldset>
+	</form>
+</body>
 </html>

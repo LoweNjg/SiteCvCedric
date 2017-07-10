@@ -138,21 +138,21 @@ $ligne_experience = $sql->fetch(); //
 							</fieldset>
 						</form>
 					</section>
-					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- jQuery -->
-		<script src="js/jquery.js"></script>
+	<!-- jQuery -->
+	<script src="js/jquery.js"></script>
 
-		<!-- Bootstrap Core JavaScript -->
-		<script src="js/bootstrap.min.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="js/bootstrap.min.js"></script>
 
-		<!-- Scrolling Nav JavaScript -->
-		<script src="js/jquery.easing.min.js"></script>
-		<script src="js/scrolling-nav.js"></script>
+	<!-- Scrolling Nav JavaScript -->
+	<script src="js/jquery.easing.min.js"></script>
+	<script src="js/scrolling-nav.js"></script>
 
-	</body>
+</body>
 
-	</html>
+</html>
