@@ -57,7 +57,7 @@ if (isset($_POST['titre_f'])) {
         $sous_titre_f = addslashes($_POST['sous_titre_f']);
         $date_f = addslashes($_POST['date_f']);
         $description_f = addslashes($_POST['description_f']);
-        $pdoCV->exec("INSERT INTO t_experiences VALUES ( NULL, '$titre_f','$sous_titre_f','$date_f','$description_f', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+        $pdoCV->exec("INSERT INTO t_formations VALUES ( NULL, '$titre_f','$sous_titre_f','$date_f','$description_f', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
         header("location: index.php");
         exit();
 
@@ -418,7 +418,7 @@ if (isset($_GET['id_formation'])) {
                         <td><?=$formation['sous_titre_f']?></td>
                         <td><?=$formation['dates_f']?></td>
                         <td><?=$formation['description_f']?></td>
-                        <td><a href="modif_experience.php?id_formation=<?= $formation['id_formation']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
+                        <td><a href="modif_formation.php?id_formation=<?= $formation['id_formation']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
                         <td><a href="index.php?id_formation=<?= $formation['id_formation']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
                     </tr>
                 <?php endforeach; ?>
