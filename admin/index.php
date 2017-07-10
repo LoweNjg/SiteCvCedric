@@ -17,15 +17,28 @@
             exit();
         }
 
-    }if (isset($_POST['titre'])) {
-        if ($_POST['titre']!=null) {
-            $titre = addslashes($_POST['titre']);
-            $sousTitre = addslashes($_POST['sousTitre']);
-            $date = addslashes($_POST['date']);
-            $description = addslashes($_POST['description']);
-            $pdoCV->exec("INSERT INTO t_experiences VALUES ( NULL, '$titre','$sousTitre','$date','$description', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+    }
+    if (isset($_POST['titre_e'])) {
+        if ($_POST['titre_e']!=null) {
+            $titre_e = addslashes($_POST['titre_e']);
+            $sous_titre_e = addslashes($_POST['sous_titre_e']);
+            $dates_e = addslashes($_POST['dates_e']);
+            $description_e = addslashes($_POST['description_e']);
+            $pdoCV->exec("INSERT INTO t_experiences VALUES ( NULL, '$titre_e','$sous_titre_e','$dates_e','$description_e', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
             header("location: index.php");
             exit();
+        }
+    }
+    if (isset($_POST['titre_f'])) {
+        if ($_POST['titre_f']!=null) {
+            $titre_f = addslashes($_POST['titre_f']);
+            $sous_titre_f = addslashes($_POST['sous_titre_f']);
+            $date_f = addslashes($_POST['date_f']);
+            $description_f = addslashes($_POST['description_f']);
+            $pdoCV->exec("INSERT INTO t_experiences VALUES ( NULL, '$titre_f','$sous_titre_f','$date_f','$description_f', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+            header("location: index.php");
+            exit();
+
         }
 
     }
@@ -44,9 +57,17 @@
         $pdoCV -> query($sql);
         header("location: index.php");
         exit();
-    }if (isset($_GET['id_experience'])) {
+    }
+    if (isset($_GET['id_experience'])) {
         $effaceExeperience = $_GET['id_experience'];
         $sql = "DELETE FROM t_experiences WHERE id_experience = '$effaceExeperience'";
+        $pdoCV -> query($sql);
+        header("location: index.php");
+        exit();
+    }
+    if (isset($_GET['id_formation'])) {
+        $effaceFormation = $_GET['id_formation'];
+        $sql = "DELETE FROM t_formations WHERE id_formation = '$effaceFormation'";
         $pdoCV -> query($sql);
         header("location: index.php");
         exit();
@@ -115,7 +136,7 @@
                         <a class="page-scroll" href="#experience">Experience</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
+                        <a class="page-scroll" href="#formation">Formation</a>
                     </li>
                 </ul>
             </div>
@@ -294,35 +315,35 @@
         <!-- Form Name -->
         <legend>Ajouter une experience</legend>
 
-        <!-- Text input--> 
+        <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="titre">titre</label>  
+            <label class="col-md-4 control-label" for="titre">titre</label>
             <div class="col-md-4">
-                <input id="titre" name="titre" type="text" placeholder="titre" class="form-control input-md">
+                <input id="titre_e" name="titre_e" type="text" placeholder="titre" class="form-control input-md">
             </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="sousTitre">sousTitre</label>  
+            <label class="col-md-4 control-label" for="sousTitre">sousTitre</label>
             <div class="col-md-4">
-                <input id="sousTitre" name="sousTitre" type="text" placeholder="sous-titre" class="form-control input-md">
+                <input id="sous_titre_e" name="sous_titre_e" type="text" placeholder="sous-titre" class="form-control input-md">
             </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="date">date</label>  
+            <label class="col-md-4 control-label" for="date">date</label>
             <div class="col-md-4">
-                <input id="date" name="date" type="text" placeholder="date" class="form-control input-md">
+                <input id="dates_e" name="dates_e" type="text" placeholder="date" class="form-control input-md">
             </div>
         </div>
 
         <!-- Textarea -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="description">description</label>
-            <div class="col-md-4">                     
-                <textarea class="form-control" id="description" name="description"></textarea>
+            <div class="col-md-4">
+                <textarea class="form-control" id="description_e" name="description_e"></textarea>
             </div>
         </div>
 
@@ -338,14 +359,93 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact-section">
+    <section id="formation" class="contact-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Contact Section</h1>
+                    <h1>Formation Section</h1>
+                    <?php
+                    $sql = $pdoCV->prepare("SELECT * FROM t_formations WHERE utilisateur_id = '1'");
+                    $sql->execute();
+                    $nbr_formation = $sql->rowCount();
+                     ?>
+                     <p>Il y a <?= $nbr_formation ?> Formation dans la table pour <?= '<strong>'.$ligne['prenom'].' '.$ligne['nom'].'</strong>'; ?></p>
                 </div>
             </div>
         </div>
+        <table class="table table-striped">
+            <?php
+               $sql = $pdoCV->query("SELECT * FROM t_formations WHERE utilisateur_id = '1'");
+                $allFormation = $sql->fetchAll();// va chercher !
+            ?>
+        <tbody>
+            <tr>
+                <th scope="col">titre</th>
+                <th scope="col">Sous-titre</th>
+                <th scope="col">date</th>
+                <th scope="col">description</th>
+                <th scope="col">Modifier</th>
+                <th scope="col">Supprimer</th>
+            </tr>
+                <?php foreach ($allFormation as $formation) :?>
+                    <tr>
+                        <td><?=$formation['titre_f']?></td>
+                        <td><?=$formation['sous_titre_f']?></td>
+                        <td><?=$formation['dates_f']?></td>
+                        <td><?=$formation['description_f']?></td>
+                        <td><a href="modif_experience.php?id_formation=<?= $formation['id_formation']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
+                        <td><a href="index.php?id_formation=<?= $formation['id_formation']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
+                    </tr>
+                <?php endforeach; ?>
+        </tbody>
+        </table>
+        <form class="form-horizontal" method="post">
+        <fieldset>
+
+        <!-- Form Name -->
+        <legend>Ajouter une formation</legend>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="titre">titre</label>
+            <div class="col-md-4">
+                <input id="titre_f" name="titre_f" type="text" placeholder="titre" class="form-control input-md">
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="sousTitre">sousTitre</label>
+            <div class="col-md-4">
+                <input id="sous_titre_f" name="sous_titre_f" type="text" placeholder="sous-titre" class="form-control input-md">
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="date">date</label>
+            <div class="col-md-4">
+                <input id="dates_f" name="dates_f" type="text" placeholder="date" class="form-control input-md">
+            </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="description">description</label>
+            <div class="col-md-4">
+                <textarea class="form-control" id="description_f" name="description_f"></textarea>
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="envoyer"></label>
+            <div class="col-md-4">
+                <button  type="submit" id="envoyer" class="btn btn-primary">envoyer</button>
+            </div>
+        </div>
+        </fieldset>
+        </form>
     </section>
 
     <!-- jQuery -->

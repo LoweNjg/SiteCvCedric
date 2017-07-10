@@ -61,28 +61,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Compétences</a>
-            </div>
+				<a class="navbar-brand page-scroll" href="index.php">Accueil Admin</a>
+			</div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a class="page-scroll" href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#about">Loisirs</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+					<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+					<li class="hidden">
+						<a class="page-scroll" href="#page-top"></a>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
@@ -93,27 +84,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-						<h2>Modification d'une loisir</h2>
-                        <table class="table table-striped">
-							<thead>
-								<tr class="info">
-									<th scope="col">Loisir</th>
-									<th scope="col">Modifier</th>
-									<th scope="col">Supprimer</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php while($ligne = $sql->fetch()){ ?>
-								<tr>
-									<td>
-										<?= $ligne['loisir']; ?>
-									</td>
-									<td><a href="#"><span class="glyphicon glyphicon-pencil"></span></a></td>
-									<td><a href="loisir.php?id_loisir=<?= $ligne['id_loisir']; ?>"><span class="glyphicon glyphicon-trash"></span></a></td>
-								</tr>
-								<?php } ?>
-							</tbody>
-						</table>
+						<section id="intro" class="intro-section">
 						<form class="form-horizontal" method="post" action="modif_loisir.php">
 							<fieldset>
 
@@ -139,6 +110,7 @@
 
 							</fieldset>
 						</form>
+					</section>
                     </div>
                 </div>
             </div>
