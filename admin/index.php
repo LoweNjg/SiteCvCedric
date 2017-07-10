@@ -5,8 +5,9 @@
         $id_utilisateur=$_SESSION['id_utilisateur'];
         $prenom = $_SESSION['prenom'];
         $nom = $_SESSION['nom'];
+        echo $_SESSION['nom'];
     }else {
-        header('location: login.php')
+        header('location: login.php');
     }
  ?>
 <?php
