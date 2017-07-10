@@ -1,5 +1,11 @@
 <?php require '../connexion/connexion.php' ?>
 <?php
+    session_start();
+    if (isset($_SESSION['connexion']) && $_SESSION['connexion'] == 'connecté') {
+        
+    }
+ ?>
+<?php
     if (isset($_POST['competence'])) {
         if ($_POST['competence']!=null) {
             $competence = addslashes($_POST['competence']);
