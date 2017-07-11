@@ -55,14 +55,25 @@ if (isset($_POST['titre_f'])) {
     if ($_POST['titre_f']!=null) {
         $titre_f = addslashes($_POST['titre_f']);
         $sous_titre_f = addslashes($_POST['sous_titre_f']);
-        $date_f = addslashes($_POST['date_f']);
+        $dates_f = addslashes($_POST['dates_f']);
         $description_f = addslashes($_POST['description_f']);
-        $pdoCV->exec("INSERT INTO t_formations VALUES ( NULL, '$titre_f','$sous_titre_f','$date_f','$description_f', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+        $pdoCV->exec("INSERT INTO t_formations VALUES ( NULL, '$titre_f','$sous_titre_f','$dates_f','$description_f', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
         header("location: index.php");
         exit();
 
     }
+}
+if (isset($_POST['titre_r'])) {
+    if ($_POST['titre_r']!=null) {
+        $titre_r = addslashes($_POST['titre_r']);
+        $sous_titre_r = addslashes($_POST['sous_titre_r']);
+        $dates_r = addslashes($_POST['dates_r']);
+        $description_r = addslashes($_POST['description_r']);
+        $pdoCV->exec("INSERT INTO t_realisations VALUES ( NULL, '$titre_r','$sous_titre_r','$dates_r','$description_r', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+        header("location: index.php");
+        exit();
 
+    }
 }
 ?>
 <?php
@@ -90,6 +101,13 @@ if (isset($_GET['id_experience'])) {
 if (isset($_GET['id_formation'])) {
     $effaceFormation = $_GET['id_formation'];
     $sql = "DELETE FROM t_formations WHERE id_formation = '$effaceFormation'";
+    $pdoCV -> query($sql);
+    header("location: index.php");
+    exit();
+}
+if (isset($_GET['id_realisation'])) {
+    $effaceRealisation = $_GET['id_realisation'];
+    $sql = "DELETE FROM t_realisations WHERE id_realisation = '$effaceRealisation'";
     $pdoCV -> query($sql);
     header("location: index.php");
     exit();
@@ -124,6 +142,7 @@ if (isset($_GET['id_formation'])) {
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="//cdn.ckeditor.com/4.7.1/basic/ckeditor.js"></script>
 
 </head>
 
@@ -137,6 +156,7 @@ if (isset($_GET['id_formation'])) {
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                     <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -159,6 +179,9 @@ if (isset($_GET['id_formation'])) {
                     </li>
                     <li>
                         <a class="page-scroll" href="#formation">Formation</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#realisation">Realisation</a>
                     </li>
                     <li>
                         <a href="index.php?quitter=oui">Déconnection</a>
@@ -197,7 +220,7 @@ if (isset($_GET['id_formation'])) {
                                 <tr>
                                     <td><?=$competence['competence']?></td>
                                     <td><a href="modif_competence.php?id_competence=<?= $competence['id_competence']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
-                                    <td><a href="index.php?id_competence=<?= $competence['id_competence']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
+                                    <td><a class="supr" href="index.php?id_competence=<?= $competence['id_competence']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
                                 </tr>
                             <?php endforeach; ?>
 
@@ -260,7 +283,7 @@ if (isset($_GET['id_formation'])) {
                                 <tr>
                                     <td><?=$loisir['loisir']?></td>
                                     <td><a href="modif_loisir.php?id_loisir=<?= $loisir['id_loisir']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
-                                    <td><a href="index.php?id_loisir=<?= $loisir['id_loisir']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
+                                    <td><a class="supr" href="index.php?id_loisir=<?= $loisir['id_loisir']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -329,7 +352,7 @@ if (isset($_GET['id_formation'])) {
                         <td><?=$experience['dates_e']?></td>
                         <td><?=$experience['description_e']?></td>
                         <td><a href="modif_experience.php?id_experience=<?= $experience['id_experience']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
-                        <td><a href="index.php?id_experience=<?= $experience['id_experience']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
+                        <td><a class="supr" href="index.php?id_experience=<?= $experience['id_experience']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -369,6 +392,9 @@ if (isset($_GET['id_formation'])) {
                     <label class="col-md-4 control-label" for="description">description</label>
                     <div class="col-md-4">
                         <textarea class="form-control" id="description_e" name="description_e"></textarea>
+                        <script>
+                        CKEDITOR.replace( 'description_e' );
+                        </script>
                     </div>
                 </div>
 
@@ -419,7 +445,7 @@ if (isset($_GET['id_formation'])) {
                         <td><?=$formation['dates_f']?></td>
                         <td><?=$formation['description_f']?></td>
                         <td><a href="modif_formation.php?id_formation=<?= $formation['id_formation']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
-                        <td><a href="index.php?id_formation=<?= $formation['id_formation']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
+                        <td><a class="supr" href="index.php?id_formation=<?= $formation['id_formation']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -459,6 +485,101 @@ if (isset($_GET['id_formation'])) {
                     <label class="col-md-4 control-label" for="description">description</label>
                     <div class="col-md-4">
                         <textarea class="form-control" id="description_f" name="description_f"></textarea>
+                        <script>
+                        CKEDITOR.replace( 'description_f' );
+                        </script>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="envoyer"></label>
+                    <div class="col-md-4">
+                        <button  type="submit" id="envoyer" class="btn btn-primary">envoyer</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </section>
+    <!-- Contact Section -->
+    <section id="realisation" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Realisation Section</h1>
+                    <?php
+                    $sql = $pdoCV->prepare("SELECT * FROM t_realisations WHERE utilisateur_id = '1'");
+                    $sql->execute();
+                    $nbr_realisation = $sql->rowCount();
+                    ?>
+                    <p>Il y a <?= $nbr_realisation ?> Realisation dans la table pour <?= '<strong>'.$ligne['prenom'].' '.$ligne['nom'].'</strong>'; ?></p>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <?php
+            $sql = $pdoCV->query("SELECT * FROM t_realisations WHERE utilisateur_id = '1'");
+            $allRealisations = $sql->fetchAll();// va chercher !
+            ?>
+            <tbody>
+                <tr>
+                    <th scope="col">titre</th>
+                    <th scope="col">Sous-titre</th>
+                    <th scope="col">date</th>
+                    <th scope="col">description</th>
+                    <th scope="col">Modifier</th>
+                    <th scope="col">Supprimer</th>
+                </tr>
+                <?php foreach ($allRealisations as $realisation) :?>
+                    <tr>
+                        <td><?=$realisation['titre_r']?></td>
+                        <td><?=$realisation['sous_titre_r']?></td>
+                        <td><?=$realisation['dates_r']?></td>
+                        <td><?=$realisation['description_r']?></td>
+                        <td><a href="modif_realisation.php?id_realisation=<?= $realisation['id_realisation']?>"><span class="glyphicon glyphicon-pencil" ></span></a></td>
+                        <td><a class="supr" href="index.php?id_realisation=<?= $realisation['id_realisation']?>"><span class="glyphicon glyphicon-trash" ></span></a></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <form class="form-horizontal" method="post">
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Ajouter une realisation</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="titre">titre</label>
+                    <div class="col-md-4">
+                        <input id="titre_r" name="titre_r" type="text" placeholder="titre" class="form-control input-md">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="sousTitre">sousTitre</label>
+                    <div class="col-md-4">
+                        <input id="sous_titre_r" name="sous_titre_r" type="text" placeholder="sous-titre" class="form-control input-md">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="date">date</label>
+                    <div class="col-md-4">
+                        <input id="dates_r" name="dates_r" type="text" placeholder="date" class="form-control input-md">
+                    </div>
+                </div>
+
+                <!-- Textarea -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="description">description</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="description_r" name="description_r"></textarea>
+                        <script>
+                        CKEDITOR.replace( 'description_r' );
+                        </script>
                     </div>
                 </div>
 
@@ -482,6 +603,7 @@ if (isset($_GET['id_formation'])) {
     <!-- Scrolling Nav JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
     <script src="js/scrolling-nav.js"></script>
+    <script src="js/js.js"></script>
 
 </body>
 

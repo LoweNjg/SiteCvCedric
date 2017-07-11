@@ -2,21 +2,21 @@
 <?php
 
 // Gestion des contenus, mise à jour d'une compétence
-if(isset($_POST['titre_e'])){
-	$titre_e = addslashes($_POST['titre_e']);
-	$sous_titre_e = addslashes($_POST['sous_titre_e']);
-	$dates_e = addslashes($_POST['dates_e']);
-	$description_e = addslashes($_POST['description_e']);
-	$id_experience = $_POST['id_experience'];
-	$pdoCV->exec(" UPDATE t_experiences SET titre_e = '$titre_e', sous_titre_e='$sous_titre_e', dates_e = '$dates_e', description_e = '$description_e' WHERE id_experience='$id_experience' ");
+if(isset($_POST['titre_r'])){
+	$titre_r = addslashes($_POST['titre_r']);
+	$sous_titre_r = addslashes($_POST['sous_titre_r']);
+	$dates_r = addslashes($_POST['dates_r']);
+	$description_r = addslashes($_POST['description_r']);
+	$id_realisation = $_POST['id_realisation'];
+	$pdoCV->exec(" UPDATE t_realisations SET titre_r = '$titre_r', sous_titre_r='$sous_titre_r', dates_r = '$dates_r', description_r = '$description_r' WHERE id_realisation='$id_realisation' ");
 	header('location: index.php');
 	exit();
 }
 
 // Je recupere les info experience
-$id_experience = $_GET['id_experience']; // par l'id et $_GET
-$sql = $pdoCV->query(" SELECT * FROM t_experiences WHERE id_experience = '$id_experience' "); // la requête égale à l'id
-$ligne_experience = $sql->fetch(); //
+$id_realisation = $_GET['id_realisation']; // par l'id et $_GET
+$sql = $pdoCV->query(" SELECT * FROM t_realisations WHERE id_realisation = '$id_realisation' "); // la requête égale à l'id
+$ligne_realisation = $sql->fetch(); //
 
 ?>
 <!DOCTYPE html>
@@ -88,18 +88,18 @@ $ligne_experience = $sql->fetch(); //
 			<div class="row">
 				<div class="col-lg-12">
 					<section id="intro" class="intro-section">
-						<form class="form-horizontal" method="post" action="modif_experience.php">
+						<form class="form-horizontal" method="post" action="modif_realisation.php">
 							<fieldset>
 
 								<!-- Form Name -->
-								<legend>Modification experience</legend>
+								<legend>Modification realisation</legend>
 
 								<!-- Text input-->
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="titre">titre</label>
 									<div class="col-md-4">
-										<input name="titre_e" type="text" class="form-control input-md" value="<?= $ligne_experience['titre_e']; ?>">
-										<input hidden name="id_experience" value="<?= $ligne_experience['id_experience']; ?>">
+										<input name="titre_r" type="text" class="form-control input-md" value="<?= $ligne_realisation['titre_r']; ?>">
+										<input hidden name="id_realisation" value="<?= $ligne_realisation['id_realisation']; ?>">
 									</div>
 								</div>
 
@@ -107,7 +107,7 @@ $ligne_experience = $sql->fetch(); //
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="sousTitre">sousTitre</label>
 									<div class="col-md-4">
-										<input name="sous_titre_e" type="text" class="form-control input-md" value="<?= $ligne_experience['sous_titre_e']; ?>">
+										<input name="sous_titre_r" type="text" class="form-control input-md" value="<?= $ligne_realisation['sous_titre_r']; ?>">
 									</div>
 								</div>
 
@@ -115,7 +115,7 @@ $ligne_experience = $sql->fetch(); //
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="date">date</label>
 									<div class="col-md-4">
-										<input name="dates_e" type="text" class="form-control input-md" value="<?= $ligne_experience['dates_e']; ?>">
+										<input name="dates_r" type="text" class="form-control input-md" value="<?= $ligne_realisation['dates_r']; ?>">
 									</div>
 								</div>
 
@@ -123,7 +123,7 @@ $ligne_experience = $sql->fetch(); //
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="description">description</label>
 									<div class="col-md-4">
-										<input name="description_e" type="text" class="form-control input-md" value="<?= $ligne_experience['description_e']; ?>">
+										<input name="description_r" type="text" class="form-control input-md" value="<?= $ligne_realisation['description_r']; ?>">
 									</div>
 								</div>
 
@@ -152,7 +152,7 @@ $ligne_experience = $sql->fetch(); //
 	<!-- Scrolling Nav JavaScript -->
 	<script src="js/jquery.easing.min.js"></script>
 	<script src="js/scrolling-nav.js"></script>
-	<script src="//cdn.ckeditor.com/4.7.1/basic/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.7.1/basic/ckeditor.js"></script>
 
 </body>
 

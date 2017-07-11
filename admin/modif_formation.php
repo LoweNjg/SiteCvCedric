@@ -152,6 +152,7 @@ $ligne_formation = $sql->fetch(); //
 	<!-- Scrolling Nav JavaScript -->
 	<script src="js/jquery.easing.min.js"></script>
 	<script src="js/scrolling-nav.js"></script>
+	<script src="//cdn.ckeditor.com/4.7.1/basic/ckeditor.js"></script>
 
 </body>
 
