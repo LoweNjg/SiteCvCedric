@@ -21,11 +21,12 @@ if(isset($_GET['quitter'])){
     header('location:    login.php');
 }
 ?>
+<?php $connecter =  $_SESSION['id_utilisateur']; ?>
 <?php
 if (isset($_POST['competence'])) {
     if ($_POST['competence']!=null) {
         $competence = addslashes($_POST['competence']);
-        $pdoCV->exec("INSERT INTO t_competences VALUES ( NULL, '$competence', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+        $pdoCV->exec("INSERT INTO t_competences VALUES ( NULL, '$competence', '$connecter')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
         header("location: index.php");
         exit();
     }
@@ -34,7 +35,7 @@ if (isset($_POST['competence'])) {
 if (isset($_POST['loisir'])) {
     if ($_POST['loisir']!=null) {
         $loisir = addslashes($_POST['loisir']);
-        $pdoCV->exec("INSERT INTO t_loisirs VALUES ( NULL, '$loisir', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+        $pdoCV->exec("INSERT INTO t_loisirs VALUES ( NULL, '$loisir', '$connecter')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
         header("location: index.php");
         exit();
     }
@@ -46,7 +47,7 @@ if (isset($_POST['titre_e'])) {
         $sous_titre_e = addslashes($_POST['sous_titre_e']);
         $dates_e = addslashes($_POST['dates_e']);
         $description_e = addslashes($_POST['description_e']);
-        $pdoCV->exec("INSERT INTO t_experiences VALUES ( NULL, '$titre_e','$sous_titre_e','$dates_e','$description_e', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+        $pdoCV->exec("INSERT INTO t_experiences VALUES ( NULL, '$titre_e','$sous_titre_e','$dates_e','$description_e', '$connecter')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
         header("location: index.php");
         exit();
     }
@@ -57,7 +58,7 @@ if (isset($_POST['titre_f'])) {
         $sous_titre_f = addslashes($_POST['sous_titre_f']);
         $dates_f = addslashes($_POST['dates_f']);
         $description_f = addslashes($_POST['description_f']);
-        $pdoCV->exec("INSERT INTO t_formations VALUES ( NULL, '$titre_f','$sous_titre_f','$dates_f','$description_f', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+        $pdoCV->exec("INSERT INTO t_formations VALUES ( NULL, '$titre_f','$sous_titre_f','$dates_f','$description_f', '$connecter')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
         header("location: index.php");
         exit();
 
@@ -69,7 +70,7 @@ if (isset($_POST['titre_r'])) {
         $sous_titre_r = addslashes($_POST['sous_titre_r']);
         $dates_r = addslashes($_POST['dates_r']);
         $description_r = addslashes($_POST['description_r']);
-        $pdoCV->exec("INSERT INTO t_realisations VALUES ( NULL, '$titre_r','$sous_titre_r','$dates_r','$description_r', '1')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
+        $pdoCV->exec("INSERT INTO t_realisations VALUES ( NULL, '$titre_r','$sous_titre_r','$dates_r','$description_r', '$connecter')");// mettre $id_utilisateur quand on l'aura en variable de SessionHandler
         header("location: index.php");
         exit();
 
@@ -112,14 +113,14 @@ if (isset($_GET['id_realisation'])) {
     header("location: index.php");
     exit();
 }
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <?php
-    $sql = $pdoCV->query(" SELECT * FROM t_utilisateurs WHERE id_utilisateur= '1' ");
+    $sql = $pdoCV->query(" SELECT * FROM t_utilisateurs WHERE id_utilisateur= '$connecter' ");
     $ligne = $sql->fetch();// va chercher !
     ?>
 
@@ -161,15 +162,19 @@ if (isset($_GET['id_realisation'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Compétences</a>
+                <a class="navbar-brand page-scroll" href="#page-top">Mon Profil perso !</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+
                     <li class="hidden">
                         <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#competence">competence</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#Loisirs">Loisirs</a>
@@ -194,20 +199,42 @@ if (isset($_GET['id_realisation'])) {
     </nav>
 
     <!-- Intro Section -->
-    <section id="intro" class="intro-section">
+    <section id="profil" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Mon profil</h1>
+            <?php
+            $sql = $pdoCV->query("SELECT * FROM t_utilisateurs WHERE id_utilisateur = '$connecter'");
+            $allProfil = $sql->fetchAll();// va chercher !
+            ?><br>
+            <?php foreach ($allProfil as $profil) :?>
+                        <p>Votre email est: <?=$profil['email']?></p><br>
+                        <p>Votre telephone est: <?=$profil['telephone']?></p><br>
+                        <p>Votre pseudo est: <?=$profil['pseudo']?></p><br>
+                        <p>Votre avatar est: <?=$profil['avatar']?></p><br>
+                        <p>Votre adresse est: <?=$profil['adresse']?></p><br>
+                        <p>Votre code postal est: <?=$profil['code_postal']?></p><br>
+                        <p>Votre ville est: <?=$profil['ville']?></p><br>
+                        <p>Votre pays est: <?=$profil['pays']?></p><br>
+                        <a href="modif_profil.php?
+                        id_utilisateur=<?= $profil['id_utilisateur']?>"><span class="glyphicon glyphicon-pencil" ></span></a>
+                <?php endforeach; ?>
+    </section>
+    <section id="competence" class="about-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h2>Compétences</h2>
                     <?php
-                    $sql = $pdoCV->prepare("SELECT * FROM t_competences WHERE utilisateur_id = '1'");
+                    $sql = $pdoCV->prepare("SELECT * FROM t_competences WHERE utilisateur_id = '$connecter'");
                     $sql->execute();
                     $nbr_competence = $sql->rowCount();
                     ?>
                     <p>Il y a <?= $nbr_competence ?> compétences dans la table pour <?= '<strong>'.$ligne['prenom'].' '.$ligne['nom'].'</strong>'; ?></p>
                     <table class="table table-striped">
                         <?php
-                        $sql = $pdoCV->query("SELECT * FROM t_competences WHERE utilisateur_id = '1'");
+                        $sql = $pdoCV->query("SELECT * FROM t_competences WHERE utilisateur_id = '$connecter'");
                         $allCompetence = $sql->fetchAll();// va chercher !
                         ?>
                         <tbody>
@@ -257,7 +284,7 @@ if (isset($_GET['id_realisation'])) {
 
 
     <!-- About Section -->
-    <section id="Loisirs" class="about-section">
+    <section id="Loisirs" class="services-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -270,7 +297,7 @@ if (isset($_GET['id_realisation'])) {
                     <p>Il y a <?= $nbr_loisir ?> loisirs dans la table pour <?= '<strong>'.$ligne['prenom'].' '.$ligne['nom'].'</strong>'; ?></p>
                     <table class="table table-striped">
                         <?php
-                        $sql = $pdoCV->query("SELECT * FROM t_loisirs WHERE utilisateur_id = '1'");
+                        $sql = $pdoCV->query("SELECT * FROM t_loisirs WHERE utilisateur_id = '$connecter'");
                         $allLoisir = $sql->fetchAll();// va chercher !
                         ?>
                         <tbody>
@@ -317,13 +344,13 @@ if (isset($_GET['id_realisation'])) {
     </section>
 
     <!-- Services Section -->
-    <section id="experience" class="services-section">
+    <section id="experience" class="contact-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Experience Section</h1>
                     <?php
-                    $sql = $pdoCV->prepare("SELECT * FROM t_experiences WHERE utilisateur_id = '1'");
+                    $sql = $pdoCV->prepare("SELECT * FROM t_experiences WHERE utilisateur_id = '$connecter'");
                     $sql->execute();
                     $nbr_experience = $sql->rowCount();
                     ?>
@@ -333,7 +360,7 @@ if (isset($_GET['id_realisation'])) {
         </div>
         <table class="table table-striped">
             <?php
-            $sql = $pdoCV->query("SELECT * FROM t_experiences WHERE utilisateur_id = '1'");
+            $sql = $pdoCV->query("SELECT * FROM t_experiences WHERE utilisateur_id = '$connecter'");
             $allExperience = $sql->fetchAll();// va chercher !
             ?>
             <tbody>
@@ -410,13 +437,13 @@ if (isset($_GET['id_realisation'])) {
     </section>
 
     <!-- Contact Section -->
-    <section id="formation" class="contact-section">
+    <section id="formation" class="services-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Formation Section</h1>
                     <?php
-                    $sql = $pdoCV->prepare("SELECT * FROM t_formations WHERE utilisateur_id = '1'");
+                    $sql = $pdoCV->prepare("SELECT * FROM t_formations WHERE utilisateur_id = '$connecter'");
                     $sql->execute();
                     $nbr_formation = $sql->rowCount();
                     ?>
@@ -426,7 +453,7 @@ if (isset($_GET['id_realisation'])) {
         </div>
         <table class="table table-striped">
             <?php
-            $sql = $pdoCV->query("SELECT * FROM t_formations WHERE utilisateur_id = '1'");
+            $sql = $pdoCV->query("SELECT * FROM t_formations WHERE utilisateur_id = '$connecter'");
             $allFormation = $sql->fetchAll();// va chercher !
             ?>
             <tbody>
@@ -502,13 +529,13 @@ if (isset($_GET['id_realisation'])) {
         </form>
     </section>
     <!-- Contact Section -->
-    <section id="realisation" class="services-section">
+    <section id="realisation" class="contact-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Realisation Section</h1>
                     <?php
-                    $sql = $pdoCV->prepare("SELECT * FROM t_realisations WHERE utilisateur_id = '1'");
+                    $sql = $pdoCV->prepare("SELECT * FROM t_realisations WHERE utilisateur_id = '$connecter'");
                     $sql->execute();
                     $nbr_realisation = $sql->rowCount();
                     ?>
@@ -518,7 +545,7 @@ if (isset($_GET['id_realisation'])) {
         </div>
         <table class="table table-striped">
             <?php
-            $sql = $pdoCV->query("SELECT * FROM t_realisations WHERE utilisateur_id = '1'");
+            $sql = $pdoCV->query("SELECT * FROM t_realisations WHERE utilisateur_id = '$connecter'");
             $allRealisations = $sql->fetchAll();// va chercher !
             ?>
             <tbody>

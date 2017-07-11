@@ -24,7 +24,7 @@ $ligne_experience = $sql->fetch(); //
 
 <head>
 	<?php
-	$sql = $pdoCV->query(" SELECT * FROM t_utilisateurs WHERE id_utilisateur= '1' ");
+	$sql = $pdoCV->query(" SELECT * FROM t_utilisateurs WHERE id_utilisateur= '$connecter' ");
 	$ligne = $sql->fetch();// va chercher !
 	?>
 
