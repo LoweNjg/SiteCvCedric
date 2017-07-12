@@ -2,18 +2,21 @@
 <?php
 
 // Gestion des contenus, mise à jour d'une compétence
-if(isset($_POST['competence'])){
-	$competence = addslashes($_POST['competence']);
-	$id_competence = $_POST['id_competence'];
-	$pdoCV->exec(" UPDATE t_competences SET competence='$competence' WHERE id_competence='$id_competence' ");
+if(isset($_POST['titre_e'])){
+	$titre_e = addslashes($_POST['titre_e']);
+	$sous_titre_e = addslashes($_POST['sous_titre_e']);
+	$dates_e = addslashes($_POST['dates_e']);
+	$description_e = addslashes($_POST['description_e']);
+	$id_experience = $_POST['id_experience'];
+	$pdoCV->exec(" UPDATE t_experiences SET titre_e = '$titre_e', sous_titre_e='$sous_titre_e', dates_e = '$dates_e', description_e = '$description_e' WHERE id_experience='$id_experience' ");
 	header('location: index.php');
 	exit();
 }
 
-// Je recupere la competence
-$id_competence = $_GET['id_competence']; // par l'id et $_GET
-$sql = $pdoCV->query(" SELECT * FROM t_competences WHERE id_competence = '$id_competence' "); // la requête égale à l'id
-$ligne_competence = $sql->fetch(); //
+// Je recupere les info experience
+$id_experience = $_GET['id_experience']; // par l'id et $_GET
+$sql = $pdoCV->query(" SELECT * FROM t_experiences WHERE id_experience = '$id_experience' "); // la requête égale à l'id
+$ligne_experience = $sql->fetch(); //
 
 ?>
 <!DOCTYPE html>
@@ -85,18 +88,42 @@ $ligne_competence = $sql->fetch(); //
 			<div class="row">
 				<div class="col-lg-12">
 					<section id="intro" class="intro-section">
-						<form class="form-horizontal" method="post" action="modif_competence.php">
+						<form class="form-horizontal" method="post" action="modif_experience.php">
 							<fieldset>
 
 								<!-- Form Name -->
-								<legend>Modification competence</legend>
+								<legend>Modification experience</legend>
 
 								<!-- Text input-->
 								<div class="form-group">
-									<label for="competence" class="col-md-4 control-label" >Compétence</label>
+									<label class="col-md-4 control-label" for="titre">titre</label>
 									<div class="col-md-4">
-										<input name="competence" type="text" class="form-control input-md" value="<?= $ligne_competence['competence']; ?>">
-										<input name="id_competence" hidden value="<?= $ligne_competence['id_competence']; ?>">
+										<input name="titre_e" type="text" class="form-control input-md" value="<?= $ligne_experience['titre_e']; ?>">
+										<input hidden name="id_experience" value="<?= $ligne_experience['id_experience']; ?>">
+									</div>
+								</div>
+
+								<!-- Text input-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="sousTitre">sousTitre</label>
+									<div class="col-md-4">
+										<input name="sous_titre_e" type="text" class="form-control input-md" value="<?= $ligne_experience['sous_titre_e']; ?>">
+									</div>
+								</div>
+
+								<!-- Text input-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="date">date</label>
+									<div class="col-md-4">
+										<input name="dates_e" type="text" class="form-control input-md" value="<?= $ligne_experience['dates_e']; ?>">
+									</div>
+								</div>
+
+								<!-- Textarea -->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="description">description</label>
+									<div class="col-md-4">
+										<input name="description_e" type="text" class="form-control input-md" value="<?= $ligne_experience['description_e']; ?>">
 									</div>
 								</div>
 
@@ -125,6 +152,7 @@ $ligne_competence = $sql->fetch(); //
 	<!-- Scrolling Nav JavaScript -->
 	<script src="js/jquery.easing.min.js"></script>
 	<script src="js/scrolling-nav.js"></script>
+	<script src="//cdn.ckeditor.com/4.7.1/basic/ckeditor.js"></script>
 
 </body>
 

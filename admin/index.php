@@ -136,6 +136,7 @@ if (isset($_GET['id_realisation'])) {
 
     <!-- Custom CSS -->
     <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -162,7 +163,7 @@ if (isset($_GET['id_realisation'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Mon Profil perso !</a>
+                <a class="navbar-brand page-scroll" href="#page-top">Mon Profil</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -209,14 +210,15 @@ if (isset($_GET['id_realisation'])) {
             $allProfil = $sql->fetchAll();// va chercher !
             ?><br>
             <?php foreach ($allProfil as $profil) :?>
-                        <p>Votre email est: <?=$profil['email']?></p><br>
-                        <p>Votre telephone est: <?=$profil['telephone']?></p><br>
-                        <p>Votre pseudo est: <?=$profil['pseudo']?></p><br>
-                        <p>Votre avatar est: <?=$profil['avatar']?></p><br>
-                        <p>Votre adresse est: <?=$profil['adresse']?></p><br>
-                        <p>Votre code postal est: <?=$profil['code_postal']?></p><br>
-                        <p>Votre ville est: <?=$profil['ville']?></p><br>
-                        <p>Votre pays est: <?=$profil['pays']?></p><br>
+                        <p class="bg-info">Votre email est : <?=$profil['email']?></p><br>
+                        <p class="bg-info">Votre telephone est : <?=$profil['telephone']?></p><br>
+                        <p class="bg-info">Votre pseudo est : <?=$profil['pseudo']?></p><br><br>
+                        <p class="bg-info"> Photo profil </p><br>
+                        <img class="bg-info" src="img/<?=$profil['avatar']?>"></img><br><br>
+                        <p class="bg-info">Votre adresse est : <?=$profil['adresse']?></p><br>
+                        <p class="bg-info">Votre code postal est : <?=$profil['code_postal']?></p><br>
+                        <p class="bg-info">Votre ville est : <?=$profil['ville']?></p><br>
+                        <p class="bg-info">Votre pays est : <?=$profil['pays']?></p><br>
                         <a href="modif_profil.php?
                         id_utilisateur=<?= $profil['id_utilisateur']?>"><span class="glyphicon glyphicon-pencil" ></span></a>
                 <?php endforeach; ?>
