@@ -14,6 +14,7 @@ if(isset($_GET['quitter'])){
     $_SESSION['id_utilisateur']='';
     $_SESSION['prenom']='';
     $_SESSION['nom']='';
+    
 
     unset($_SESSION['connexion']);
     session_destroy();
